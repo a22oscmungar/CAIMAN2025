@@ -1,0 +1,22 @@
+[
+    {"id":1,
+    "question":"¿Quien es más probable que organizce un plan y luego no vaya?"},
+    {"id":2,
+    "question":"¿Quien es más probable que se olvide de un cumpleaños?"},
+    {"id":3,
+    "question":"¿Quien es más probable que no haga un uso responsable de su dinero?"},
+    {"id":4,
+    "question":"¿Quien es más probable que llegue tarde?"},
+    {"id":5,
+    "question":"¿Quien es más probable que queme la casa cocinando?"},
+    {"id":6,
+    "question":"¿Quien es más probable que intente que le despidan del trabajo?"},
+    {"id":7,
+    "question":"¿Quien es más probable que reciba una denuncia de cualquier tipo?"},
+    {"id":8,
+    "question":"¿Quien es más probable que se una a una secta?"},
+    {"id":9,
+    "question":"¿Quien es más probable que se convierta en un influencer?"},
+    {"id":10,
+    "question":"¿Quien es más probable que se case en los próximos 5 años?"}
+]

@@ -1,0 +1,135 @@
+[
+    {
+        "questionId": 1,
+        "question":"¿En que paso de cebra salvaron Carla y Noa a una señora?",
+        "answers":[
+            "Frente al CAP",
+            "Cerca del Bon Area",
+            "Cerca de casa de Marcos",
+            "Frente al gimnasio (CEM)"
+        ],
+        "correct": "Cerca del Bon Area"
+    },
+    {
+        "questionId": 2,
+        "question":"¿Donde nos dimos cuenta del problema de las frecuencias de los coches teledirigidos?",
+        "answers":[
+            "Masia Bach",
+            "Casa de Javier",
+            "Garaje de Marcos",
+            "Frente al CEM"
+        ],
+        "correct": "Masia Bach"
+    },
+    {
+        "questionId": 3,
+        "question":"¿Donde se celebró el cumpleaños de Javier?",
+        "answers":[
+            "Salou",
+            "Calafell",
+            "Vilanova i la Geltrú",
+            "Sitges"
+        ],
+        "correct": "Sitges"
+    },
+    {
+        "questionId": 4,
+        "question":"¿Cual era la diferencia de sueldo entre Noa y su hermano Ari?",
+        "answers":[
+            "80 euros",
+            "120 euros",
+            "130 euros",
+            "110 euros"
+        ],
+        "correct": "130 euros"
+    },
+    {
+        "questionId": 5,
+        "question":"Sigue la canción: 'No quiero putas en...",
+        "answers":[
+            "mi casa",
+            "mi cama",
+            "mi cabeza",
+            "mi vida"
+        ],
+        "correct": "mi cama"
+    },
+    {
+        "questionId": 6,
+        "question":"¿Quien no ha empezado un nuevo trabajo durante el 2025?",
+        "answers":[
+            "Oscar",
+            "Javier",
+            "Manel",
+            "Carla"
+        ],
+        "correct": "Manel"
+    },
+    {
+        "questionId": 7,
+        "question":"Marcos, Javier, Aitor y Carla se han vuelto locos por el fantasy, per ¿a que se viciaron Noa, Oscar y Aitor (levemente)?",
+        "answers":[
+            "Candy Crush",
+            "Sudoku",
+            "Shein",
+            "Balatro"
+        ],
+        "correct": "Balatro"
+    },
+    {
+        "questionId": 8,
+        "question":"¿Como se llama el nuevo punto de reunión de los Caymans?",
+        "answers":[
+            "Abuelo Cheng",
+            "Avi enric",
+            "The refugee",
+            "Abuelo Wong"
+        ],
+        "correct": "Abuelo Cheng"
+    },
+    {
+        "questionId": 9,
+        "question":"¿Que aplicación hemos entendido porque funciona tan mal?",
+        "answers":[
+            "Instagram",
+            "TikTok",
+            "ImaginBank",
+            "Fantasy"
+        ],
+        "correct": "ImaginBank"
+    },
+    {
+        "questionId": 10,
+        "question":"¿Cuál es el nombre de la acosadora de Noa a finales de año?",
+        "answers":[
+            "Paula",
+            "Virginia",
+            "Ana",
+            "Elena"
+        ],
+        "correct": "Virginia"
+    },
+    {
+        "questionId": 11,
+        "question":"Noa descubrió que uno de sus trabajos soñados seria en...",
+        "answers":[
+            "Bellvitge",
+            "Cap Martorell",
+            "Vall d'Hebron",
+            "Cap Masquefa"
+        ],
+        "correct": "Cap Masquefa"
+    },
+    {
+        "questionId": 12,
+        "question":"¿De quién era el cumpleaños que celebramos en un EscapeRoom?",
+        "answers":[
+            "Javier",
+            "Marcos",
+            "Noa",
+            "Aitor"
+        ],
+        "correct": "Marcos"
+    }
+
+]
