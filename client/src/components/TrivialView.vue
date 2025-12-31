@@ -4,31 +4,51 @@
 
       <!-- ADMIN -->
       <template v-if="isAdmin">
-        <h1>TRIVIAL</h1>
-        <h2>{{ currentQuestion.question }}</h2>
+        <div v-if="feedback != `🎉 Trivial finalizado`">
+          <h1>TRIVIAL</h1>
+          <h2 class="pregunta">{{ currentQuestion.question }}</h2>
 
-        <div class="answers-grid admin">
-          <button v-for="(ans, index) in currentQuestion.answers" :key="index" class="answer-btn">
-            {{ letters[index] }} - {{ ans }}
-          </button>
+          <div class="answers-grid admin">
+            <button v-for="(ans, index) in currentQuestion.answers" :key="index" class="answer-btn">
+              {{ letters[index] }} - {{ ans }}
+            </button>
+          </div>
+
+          <div class="admin-actions">
+            <button class="resolve-btn" @click="resolveQuestion">
+              Resolver pregunta
+            </button>
+
+            <button class="next-btn" @click="nextQuestion">
+              Siguiente pregunta
+            </button>
+          </div>
+
+          <p v-if="feedback" class="feedback">{{ feedback }}</p>
+        </div>
+        <div v-else class="modal-content">
+          <h2> Clasificación final</h2>
+          <ul>
+            <li v-for="u in filteredScores" :key="u.username">
+              {{ u.username }} : {{ u.puntos }} puntos
+            </li>
+          </ul>
+          <div>
+            <ul>
+              <li>Cayman > 27</li>
+              <li>Trucho > 20</li>
+              <li>Wawawa > 15</li>
+              <li>Poppy > 10</li>
+              <li>Sapo <=10</li>
+            </ul>
+          </div>
         </div>
 
-        <div class="admin-actions">
-          <button class="resolve-btn" @click="resolveQuestion">
-            Resolver pregunta
-          </button>
-
-          <button class="next-btn" @click="nextQuestion">
-            Siguiente pregunta
-          </button>
-        </div>
-
-        <p v-if="feedback" class="feedback">{{ feedback }}</p>
       </template>
 
       <!-- JUGADORES -->
       <template v-else>
-        <h2 v-if="!hasAnswered">{{ currentQuestion.question }}</h2>
+        <h2 class="pregunta-user" v-if="!hasAnswered">{{ currentQuestion.question }}</h2>
 
         <div v-if="!hasAnswered" class="answers-grid player">
           <button v-for="(letter, index) in letters" :key="letter" class="answer-btn big" @click="submitAnswer(letter)">
@@ -50,14 +70,15 @@
 
 <script>
 import { ref, computed, onMounted } from "vue";
-import { io } from "socket.io-client";
+import { socket } from "@/socket";
 import { useRoute } from "vue-router";
 
 export default {
   name: "GameViewTrivial",
   setup() {
     const route = useRoute();
-    const socket = io("http://localhost:3000");
+    const connectedUsers = ref([]);
+    const scores = ref([]);
 
     const username = route.params.username;
     const isAdmin = computed(() => username.toLowerCase() === "oscar");
@@ -72,7 +93,23 @@ export default {
     const hasAnswered = ref(false);
     const feedback = ref("");
 
+    socket.off("connectedUsers");
+    socket.off("newTrivialQuestion");
+    socket.off("trivialResult");
+    socket.off("trivialFinished");
+
+    const filteredScores = computed(() =>
+      scores.value.filter(u => u.username.toLowerCase() !== "oscar")
+    );
+
     onMounted(() => {
+      // Pedir lista de jugadores
+      socket.emit("requestUsers");
+
+      socket.on("connectedUsers", (users) => {
+        connectedUsers.value = users;
+      });
+
       socket.emit("requestTrivialQuestion");
 
       socket.on("newTrivialQuestion", (q) => {
@@ -89,8 +126,10 @@ export default {
         }
       });
 
-      socket.on("trivialFinished", () => {
+      socket.on("trivialFinished", (finalScores) => {
         feedback.value = "🎉 Trivial finalizado";
+        scores.value = [...finalScores].sort((a, b) => b.puntos - a.puntos);
+        console.log("Ranking final:", scores.value);
       });
     });
 
@@ -122,7 +161,9 @@ export default {
       feedback,
       submitAnswer,
       resolveQuestion,
-      nextQuestion
+      nextQuestion,
+      scores,
+      filteredScores
     };
   }
 };
@@ -140,18 +181,17 @@ body,
 }
 
 .trivial-view {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  /* Título arriba, login abajo */
-  color: white;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #7edfa1, #32a852);
+  overflow: hidden;
+  padding: 16px;
 }
 
 .overlay {
@@ -174,7 +214,7 @@ body,
 }
 
 .answers-grid.player {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .answer-btn {
@@ -183,17 +223,23 @@ body,
   border-radius: 15px;
   border: none;
   cursor: pointer;
+  background-color: #32a852;
+  color: white;
 }
 
 .answer-btn.big {
   font-size: 2em;
   height: 120px;
+  margin-right: 30px;
 }
 
 .resolve-btn {
-  margin-top: 20px;
-  padding: 15px 25px;
-  font-size: 1.2em;
+  background: #32a852;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 14px 26px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -215,12 +261,29 @@ body,
 }
 
 .next-btn {
-  padding: 15px 25px;
-  font-size: 1.2em;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  background: #4a90e2;
+  background: #32a852;
   color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 14px 26px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.pregunta {
+  color: black;
+}
+
+.modal-content {
+  font-size: x-large;
+  margin: 25px;
+  text-align: center;
+}
+
+ul{
+  list-style: none;
+}
+li{
+  list-style: none;
 }
 </style>

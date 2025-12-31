@@ -150,7 +150,10 @@ io.on("connection", socket => {
   socket.on("requestTrivialQuestion", () => {
     const q = questionsTrivia[trivialIndex];
     if (!q) {
-      io.emit("trivialFinished");
+      io.emit("trivialFinished", Object.values(connectedUsers).map(u => ({
+        username: u.username,
+        puntos: u.puntos
+      })));
       return;
     }
 
@@ -221,6 +224,6 @@ io.on("connection", socket => {
 // START
 // =======================
 const PORT = 3000;
-server.listen(PORT, () =>
+server.listen(PORT, "0.0.0.0", () =>
   console.log(`🚀 Server en http://localhost:${PORT}`)
 );

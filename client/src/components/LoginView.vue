@@ -28,6 +28,7 @@
 import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { BACKEND_URL } from "@/config";
 
 export default {
   name: "LoginView",
@@ -40,7 +41,7 @@ export default {
 
     const handleLogin = async () => {
       try {
-        const res = await axios.post("http://localhost:3000/login", {
+        const res = await axios.post(`${BACKEND_URL}/login`, {
           username: username.value,
           password: password.value,
         });
@@ -63,7 +64,6 @@ export default {
 </script>
 
 <style scoped>
-
 @font-face {
   font-family: 'RoyaltyFree';
   src: url('../assets/fonts/RoyaltyFree.ttf') format('truetype');
@@ -91,7 +91,9 @@ export default {
   box-sizing: border-box;
 }
 
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -99,56 +101,57 @@ html, body, #app {
 }
 
 .main {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  width: 100vw;
   display: flex;
-  flex-direction: column; /* Título arriba, login abajo */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #7edfa1, #32a852);
+  overflow: hidden;
+  padding: 16px;
 }
 
-/* Título fuera de la caja de login */
 .main-title {
-  font-size: 4rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, .4);
   color: #ffffff;
   font-family: 'DirtyLane', sans-serif;
   text-align: center;
+  margin-bottom: 12px;
 }
 
-/* Imagen */
 .logo {
-  margin-bottom: 20px; 
-  margin-left: 40px;
-   /* Truco para difuminar la parte inferior */
-  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: cover;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
-  mask-repeat: no-repeat;
-  mask-size: cover;
+  max-width: 80vw;
+  max-height: 30vh;
+  object-fit: contain;
+  margin: 12px 0;
+  margin-left: 10%;
+  
+
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
 }
 
 .login-container {
-  max-width: 400px;
-  width: 90%;
+  width: 100%;
+  max-width: 340px;
   background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .15);
   text-align: center;
 }
 
-input, button {
+input,
+button {
   width: 100%;
-  display: block;
-  margin: 10px 0;
-  padding: 10px;
+  margin: 12px 0;
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: 8px;
 }
 
 button {
@@ -158,11 +161,10 @@ button {
 .start-btn {
   background: white;
   color: #32a852;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  padding: 12px 24px;
+  padding: 14px 26px;
+  border-radius: 10px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
 }
 </style>

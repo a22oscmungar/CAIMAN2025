@@ -1,30 +1,31 @@
 <template>
   <div class="game-view">
-    <h1 class="title">¿QUIÉN ES MÁS PROBABLE QUE...?</h1>
-    <h2 class="question">{{ currentQuestion }}</h2>
 
-    <div class="players-grid" v-if="!isAdmin">
-      <button v-for="(u, index) in connectedUsers" :key="u.socketId" :class="['player-btn', `color-${index % 8}`]"
-        @click="selectVote(u.username)">
-        {{ u.username === "oscar" ? "Oscar" : u.username }}
-      </button>
+    <div class="players-grid" v-if="!isAdmin && tuVoto == ''">
+        <button v-for="(u, index) in connectedUsers" :key="u.socketId" :class="['player-btn', `color-${index % 8}`]"
+          @click="selectVote(u.username)">
+          {{ u.username === "oscar" ? "Oscar" : u.username }}
+        </button>
+    </div>
+
+    <div class="hasVotado" v-if="tuVoto != ''">
+      Has votado a {{ tuVoto }}
     </div>
 
     <!-- Solo visible para el admin -->
     <div v-if="isAdmin" class="admin-panel">
-      <button class="admin-btn" @click="nextQuestion">
-        Siguiente pregunta
-      </button>
-      <button class="admin-btn" @click="checkVotes">
-        Comprobar votos
-      </button>
-      <button class="admin-btn" @click="toggleScores">
-        Ver puntuaciones
-      </button>
-    </div>
+      <h1 class="title">¿QUIÉN ES MÁS PROBABLE QUE...?</h1>
+      <h2 class="question">{{ currentQuestion }}</h2>
 
-    <!-- Modal de puntuaciones -->
-    <div v-if="showScores" class="scores-modal">
+      <div class="botones">
+        <button class="admin-btn" @click="nextQuestion">
+          Siguiente pregunta
+        </button>
+        <button class="admin-btn" @click="checkVotes">
+          Comprobar votos
+        </button>
+      </div>
+
       <div class="modal-content">
         <h3>Puntuaciones actuales</h3>
         <ul>
@@ -32,7 +33,6 @@
             {{ s.username }} — {{ s.puntos }} puntos
           </li>
         </ul>
-        <button @click="toggleScores">Cerrar</button>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
 </template>
 <script>
 import { ref, computed, onMounted } from "vue";
-import { io } from "socket.io-client";
+import { socket } from "@/socket";
 import { useRouter, useRoute } from "vue-router";
 
 export default {
@@ -51,9 +51,6 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
-
-    // ⚠️ IMPORTANTE: usar una única conexión siempre
-    const socket = io("http://localhost:3000", { autoConnect: true });
 
     const username = route.params.username;
     const connectedUsers = ref([]);
@@ -63,6 +60,7 @@ export default {
     const scores = ref([]);
     const winner = ref("");
     const showScores = ref(false);
+    const tuVoto = ref("");
 
     const isAdmin = computed(() => username.toLowerCase() === "oscar");
 
@@ -70,6 +68,7 @@ export default {
     const selectVote = (votedFor) => {
       socket.emit("submitVote", { username, votedFor });
       console.log(`${username} votó por ${votedFor}`);
+      tuVoto.value = votedFor
     };
 
     // ADMIN → pide siguiente pregunta
@@ -120,6 +119,8 @@ export default {
       socket.on("newQuestion", (question) => {
         console.log("Nueva pregunta recibida:", question);
         currentQuestion.value = question;
+        tuVoto.value = ""
+        winner.value = ""
       });
 
       socket.on("votesChecked", (data) => {
@@ -141,6 +142,7 @@ export default {
       scores,
       showScores,
       toggleScores,
+      tuVoto
     };
   },
 };
@@ -184,37 +186,64 @@ body,
 }
 
 .title {
-  font-size: 2em;
+  font-size: 5em;
   margin-bottom: 10px;
   font-weight: 700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    -1px 0 0 #000,
+    1px 0 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000;
 }
 
 .question {
-  font-size: 1.3em;
+  font-size: 3em;
   margin-bottom: 40px;
   font-weight: 500;
+  text-align: center;
+
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    -1px 0 0 #000,
+    1px 0 0 #000,
+    0 -1px 0 #000,
+    0 1px 0 #000;
 }
 
 .players-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  /* 🔹 EXACTAMENTE 4 columnas */
-  gap: 15px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
   justify-items: center;
 }
 
-/* 🎨 Colores de botones (hasta 8 diferentes) */
 .player-btn {
   padding: 15px 20px;
-  font-size: 1.1em;
+  font-size: 3em;
   border: none;
   border-radius: 15px;
-  color: black;
+  color: white;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000,
+    -2px 0 0 #000,
+    2px 0 0 #000,
+    0 -2px 0 #000,
+    0 2px 0 #000;
 }
 
 .player-btn:hover {
@@ -253,5 +282,49 @@ body,
 
 .color-7 {
   background-color: #6bfffd;
+}
+
+.modal-content {
+  background-color: white;
+  color: black;
+  padding: 10px 250px 10px 250px;
+  font-size: x-large;
+  margin: 25px;
+  text-align: center;
+}
+
+.botones {
+  color: black;
+  padding: 10px 250px 10px 250px;
+  font-size: x-large;
+  margin: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  border: #000;
+}
+
+button {
+  background: #32a852;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 14px 26px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.winner-msg {
+  font-size: x-large;
+}
+
+.hasVotado {
+  background: white;
+  padding: 50px;
+  color: #000;
+  border-radius: 12px;
+  margin-top: 25px;
+  font-size: large;
 }
 </style>

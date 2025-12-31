@@ -130,6 +130,40 @@
             "Aitor"
         ],
         "correct": "Marcos"
+    },
+    {
+        "questionId": 13,
+        "question":"¿Con cuál no ha estado Oscar durante este año?",
+        "answers":[
+            "Edith",
+            "Valentina",
+            "Samantha",
+            "Bruna"
+        ],
+        "correct": "Samantha"
+    },
+    {
+        "questionId": 14,
+        "question":"¿Donde se cenó en San Juan?",
+        "answers":[
+            "Garaje de Marcos",
+            "Terraza de Javier",
+            "Burger King",
+            "Terraza de Nahia"
+        ],
+        "correct": "Terraza de Nahia"
+    },
+    {
+        "questionId": 15,
+        "question":"¿Quien se rumorea que podría ser la cuñada de Noa?",
+        "answers":[
+            "Marina",
+            "Gwyneth",
+            "Judith",
+            "Anna"
+        ],
+        "correct": "Marina"
     }
+
 
 ]

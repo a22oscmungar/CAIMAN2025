@@ -2,27 +2,25 @@
   <div class="main">
     <h1>Sala de espera</h1>
     <div class="waiting-room">
-      <p class="welcome-message">Bienvenido, {{ user.displayName }}!</p>
 
-      <h3>Jugadores conectados:</h3>
-      <ul>
-        <li v-for="u in filteredUsers" :key="u.socketId">
-          {{ u.displayName }}
-        </li>
-      </ul>
+      <div class ="jugadores-conectados">
+        <h3>Jugadores conectados:</h3>
+        <ul>
+          <li v-for="u in filteredUsers" :key="u.socketId">
+            {{ u.displayName }}
+          </li>
+        </ul>
+      </div>
 
       <!-- Si es Oscar, muestra el botón -->
       <button v-if="isOscar" @click="startGame">Iniciar juego</button>
-
-      <!-- Si no es Oscar, muestra mensaje -->
-      <p v-else>Esperando al resto de parguelas...</p>
     </div>
   </div>
 
 </template>
 
 <script>
-import { io } from "socket.io-client";
+import { socket } from "@/socket";
 import { ref, computed, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 
@@ -39,7 +37,6 @@ export default {
     };
 
     const connectedUsers = ref([]);
-    const socket = io("http://localhost:3000");
 
     // Solo Oscar puede iniciar
     const isOscar = computed(() => user.username?.toLowerCase() === "oscar");
@@ -80,6 +77,12 @@ export default {
 </script>
 
 <style scoped>
+  @font-face {
+  font-family: 'DirtyLane';
+  src: url('../assets/fonts/DirtyLane.otf') format('openType');
+  font-weight: normal;
+  font-style: normal;
+}
 * {
   margin: 0;
   padding: 0;
@@ -138,5 +141,14 @@ button {
   margin-top: 20px;
   padding: 10px 20px;
   cursor: pointer;
+  font-size: large;
+}
+
+.jugadores-conectados{
+  background-color: white;
+  border-radius: 10%;
+  padding: 25px;
+  font-size:x-large;
+  margin-bottom: 25px;
 }
 </style>
