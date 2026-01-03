@@ -327,4 +327,7 @@ button {
   margin-top: 25px;
   font-size: large;
 }
+li{
+  list-style: none;
+}
 </style>

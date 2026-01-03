@@ -1,11 +1,11 @@
 [
   { "username": "Oscar", "password": "omg0820", "displayName": "jefe", "puntos": 0 },
-  { "username": "Aitor", "password": "aitor", "displayName": "Aitor", "puntos": 0 },
-  { "username": "Ana", "password": "ana", "displayName": "Ana", "puntos": 0 },
-    { "username": "Marcos", "password": "marcos", "displayName": "Marcos", "puntos": 0 },
-    { "username": "Javier", "password": "javier", "displayName": "Javier", "puntos": 0 },
-    { "username": "Noa", "password": "noa", "displayName": "Noa", "puntos": 0 },
-    { "username": "Carla", "password": "carla", "displayName": "Carla", "puntos": 0 },
-    { "username": "Manel", "password": "manel", "displayName": "Manel", "puntos": 0 }
+  { "username": "Aitor", "password": "estudiante", "displayName": "Aitor", "puntos": 0 },
+  { "username": "Ana", "password": "parte", "displayName": "Ana", "puntos": 0 },
+    { "username": "Marcos", "password": "academia", "displayName": "Marcos", "puntos": 0 },
+    { "username": "Javier", "password": "fortnite", "displayName": "Javier", "puntos": 0 },
+    { "username": "Noa", "password": "nachito", "displayName": "Noa", "puntos": 0 },
+    { "username": "Carla", "password": "viajes", "displayName": "Carla", "puntos": 0 },
+    { "username": "Manel", "password": "aimlab", "displayName": "Manel", "puntos": 0 }
 
 ]

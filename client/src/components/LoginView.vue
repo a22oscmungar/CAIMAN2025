@@ -18,8 +18,24 @@
           <input v-model="password" type="password" placeholder="Contraseña" required />
         </div>
         <button type="submit">Entrar</button>
+        <button class="abrirPistas" @click="verPistas">Ver Pistas</button>
       </form>
       <p v-if="error" style="color:red">{{ error }}</p>
+      <div v-if="showHints" class="modal-overlay" @click.self="showHints = false">
+        <div class="modal">
+          <h3>Pistas de los usuarios</h3>
+          <ul>
+            <li><b>Aitor</b>: Este año ya no eres solo trabajador, ahora eres _______</li>
+            <li><b>Noa</b>: Cuando tuviste que elegir bando lo tuviste fácil, elegiste a _______</li>
+            <li><b>Marcos</b>: Lugar donde te enseñan a dar la patita</li>
+            <li><b>Carla</b>: Cuando te ingresan la nómina lo primero en lo que piensas es en _____</li>
+            <li><b>Javier</b>: Muchos lo ven como entretenimiento, pero para ti es entrenamiento (videojuego)</li>
+            <li><b>Ana</b>: Lo que rellenas cuando un menor te llama hierro</li>
+            <li><b>Manel</b>: Tu segundo hogar cuando se va el internet (todo junto en minúsculas)</li>
+          </ul>
+          <button class="close-btn" @click="showHints = false">Cerrar</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +54,7 @@ export default {
     const password = ref("");
     const error = ref("");
     const showLogin = ref(false);
+    const showHints = ref(false)
 
     const handleLogin = async () => {
       try {
@@ -58,7 +75,11 @@ export default {
       }
     };
 
-    return { username, password, error, handleLogin, showLogin };
+    const verPistas = () => {
+      showHints.value = !showHints.value;
+    };
+
+    return { username, password, error, handleLogin, showLogin, verPistas, showHints };
   },
 };
 </script>
@@ -129,7 +150,7 @@ body,
   object-fit: contain;
   margin: 12px 0;
   margin-left: 10%;
-  
+
 
   -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 100%);
@@ -166,5 +187,9 @@ button {
   padding: 14px 26px;
   border-radius: 10px;
   border: none;
+}
+
+li{
+  list-style: none;
 }
 </style>

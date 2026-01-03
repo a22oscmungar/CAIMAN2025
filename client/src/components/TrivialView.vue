@@ -30,7 +30,7 @@
           <h2> Clasificación final</h2>
           <ul>
             <li v-for="u in filteredScores" :key="u.username">
-              {{ u.username }} : {{ u.puntos }} puntos
+            <b>  {{ u.username }} </b>: {{ u.puntos }} puntos
             </li>
           </ul>
           <div>
@@ -57,7 +57,7 @@
         </div>
 
         <p v-else class="waiting">
-          ✅ Respuesta enviada<br />
+          Respuesta enviada<br />
           Esperando al resto...
         </p>
 
